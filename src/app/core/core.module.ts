@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 import * as fromServices from './services';
 
 @NgModule({
-  declarations: [...fromServices.services],
-  imports: [CommonModule],
-  exports: [...fromServices.services],
+  declarations: [],
+  imports: [CommonModule, HttpClientModule],
+  exports: [],
+  providers: [...fromServices.services],
 })
 export class CoreModule {}
