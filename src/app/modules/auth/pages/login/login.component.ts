@@ -23,9 +23,11 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmitClick() {
-    this.authService.login({
-      username: this.username,
-      password: this.password,
-    });
+    this.authService
+      .login({
+        username: this.username,
+        password: this.password,
+      })
+      .subscribe();
   }
 }
