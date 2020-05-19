@@ -1,1 +1,20 @@
-<p>list works!</p>
+<table class="table table-striped m-3">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Type</th>
+      <th scope="col">Short Description</th>
+      <th scope="col">Address</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let apartment of apartments; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ apartment.title }}</td>
+      <td>{{ apartment.type }}</td>
+      <td>{{ apartment.shortDescription }}</td>
+      <td>{{ apartment.address }}</td>
+    </tr>
+  </tbody>
+</table>

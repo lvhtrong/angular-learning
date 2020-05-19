@@ -52,8 +52,15 @@ export class AuthService {
    * isAuthenticated
    */
   public isAuthenticated() {
-    const token = sessionStorage.getItem(this.TOKEN_KEY);
+    const token = this.getToken();
     return !!token;
+  }
+
+  /**
+   * getToken
+   */
+  public getToken() {
+    return sessionStorage.getItem(this.TOKEN_KEY);
   }
 
   /**
