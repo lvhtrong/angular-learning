@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env';
 import UrlAssembler from 'url-assembler';
-import { throwError, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
 import { ApiService } from '../api/api.service';
@@ -33,8 +33,10 @@ export class AuthService {
             observer.next(token);
           }),
           catchError((err) => {
+            observer.error(err);
+
             const { error } = err;
-            return throwError(error.message);
+            return of(error.message);
           })
         )
         .subscribe();

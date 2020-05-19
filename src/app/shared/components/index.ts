@@ -1,1 +1,3 @@
-export const components: any[] = [];
+import * as fromModals from './modal';
+
+export const components: any[] = [...fromModals.modals];
