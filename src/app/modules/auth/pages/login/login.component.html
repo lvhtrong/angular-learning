@@ -9,10 +9,14 @@
             data-testid="login-username-field"
             type="email"
             class="form-control"
+            [class.is-invalid]="usernameError"
             id="login-email-input"
             [value]="username"
             (input)="onUsernameChange($event.target.value)"
           />
+          <div class="invalid-feedback">
+            {{ usernameError }}
+          </div>
         </div>
         <div class="form-group">
           <label for="login-password-input">Password</label>
@@ -20,10 +24,14 @@
             data-testid="login-password-field"
             type="password"
             class="form-control"
+            [class.is-invalid]="passwordError"
             id="login-password-input"
             [value]="password"
             (input)="onPasswordChange($event.target.value)"
           />
+          <div class="invalid-feedback">
+            {{ passwordError }}
+          </div>
         </div>
         <button
           data-testid="login-login-button"
@@ -31,7 +39,7 @@
           class="btn btn-primary"
           (click)="onSubmitClick()"
         >
-          Submit
+          Login
         </button>
       </div>
     </div>

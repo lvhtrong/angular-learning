@@ -12,7 +12,10 @@ import { ModalService } from '@core/services/modal/modal.service';
 })
 export class LoginComponent implements OnInit {
   username = '';
+  usernameError = null;
+
   password = '';
+  passwordError = null;
 
   constructor(
     private authService: AuthService,
@@ -25,13 +28,25 @@ export class LoginComponent implements OnInit {
 
   onUsernameChange(value: string) {
     this.username = value;
+    this.usernameError = null;
   }
 
   onPasswordChange(value: string) {
     this.password = value;
+    this.passwordError = null;
   }
 
   onSubmitClick() {
+    if (!this.username || !this.password) {
+      if (!this.username) {
+        this.usernameError = 'User Name is required';
+      }
+      if (!this.password) {
+        this.passwordError = 'Password is required';
+      }
+      return;
+    }
+
     this.authService
       .login({
         username: this.username,
