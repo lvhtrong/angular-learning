@@ -1,0 +1,7 @@
+{
+  "baseUrl": "http://localhost:4200",
+  "testFiles": "**/*.feature",
+  "env": {
+    "api_url": "https://kahomi-service.herokuapp.com/v1"
+  }
+}
