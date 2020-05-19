@@ -11,7 +11,7 @@ import { ResponsePayload } from './models/response-payload';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService implements AuthService {
+export class AuthService {
   readonly TOKEN_KEY = 'token';
 
   constructor(private api: ApiService) {}
@@ -46,6 +46,14 @@ export class AuthService implements AuthService {
    */
   public logout() {
     this.removeToken();
+  }
+
+  /**
+   * isAuthenticated
+   */
+  public isAuthenticated() {
+    const token = sessionStorage.getItem(this.TOKEN_KEY);
+    return !!token;
   }
 
   /**
