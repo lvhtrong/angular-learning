@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env';
 import UrlAssembler from 'url-assembler';
-
-import { ApiService } from '../api/api.service';
 import { Observable } from 'rxjs';
-import { ApartmentApiResponse } from './models/apartment-api-response';
+
+import { ApiService } from '../../../services/api/api.service';
+import { ApartmentApiResponse } from '../models/apartment-api-response';
 
 @Injectable({
   providedIn: 'root',

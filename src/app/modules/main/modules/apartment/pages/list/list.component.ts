@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApartmentService } from '@core/services/apartment/apartment.service';
+import { ApartmentService } from '@core/domains/apartment/services/apartment.service';
 import { map } from 'rxjs/operators';
 import { Apartment } from '../../models/apartment';
 

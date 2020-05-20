@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '@core/services/auth/auth.service';
+import { AuthService } from '@core/domains/auth/services/auth.service';
 import { throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';

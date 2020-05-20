@@ -4,9 +4,9 @@ import UrlAssembler from 'url-assembler';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { ApiService } from '../api/api.service';
-import { RequestPayload } from './models/request-payload';
-import { ResponsePayload } from './models/response-payload';
+import { ApiService } from '../../../services/api/api.service';
+import { RequestPayload } from '../models/request-payload';
+import { ResponsePayload } from '../models/response-payload';
 
 @Injectable({
   providedIn: 'root',
