@@ -120,4 +120,7 @@
     }
   },
   "defaultProject": "angular-learning",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

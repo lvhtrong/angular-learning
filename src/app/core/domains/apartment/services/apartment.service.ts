@@ -2,23 +2,40 @@ import { Injectable } from '@angular/core';
 import { environment } from '@env';
 import UrlAssembler from 'url-assembler';
 import { Observable } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import * as fromApartmentActions from '@store/state/domains/apartment/apartment.actions';
+import * as fromApartmentSelectors from '@store/state/domains/apartment/apartment.selectors';
 
 import { ApiService } from '../../../services/api/api.service';
-import { ApartmentApiResponse } from '../models/apartment-api-response';
+import { ApartmentDTO } from '../models/apartment.dto';
+import { mapToStoreApartment, mapFromStoreApartment } from '../utils';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApartmentService {
-  constructor(private api: ApiService) {}
+  apartments$ = this.store.pipe(
+    select(fromApartmentSelectors.selectApartmentEntities),
+    map((apartmentEntities) => Object.values(apartmentEntities)),
+    map((apartments) => apartments.map((a) => mapFromStoreApartment(a)))
+  );
+
+  constructor(private api: ApiService, private store: Store) {}
 
   /**
    * getApartments
    */
-  public getApartments(): Observable<ApartmentApiResponse[]> {
+  public getApartments() {
     const apiUrl = environment.apiUrl;
     const url = UrlAssembler(apiUrl).segment('/apartments').toString();
 
-    return this.api.get<ApartmentApiResponse[]>(url);
+    this.api.get<ApartmentDTO[]>(url).subscribe((apartments) => {
+      this.store.dispatch(
+        fromApartmentActions.upsertApartments({
+          apartments: apartments.map((a) => mapToStoreApartment(a)),
+        })
+      );
+    });
   }
 }

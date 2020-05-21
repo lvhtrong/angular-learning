@@ -1,4 +1,4 @@
-export interface ApartmentApiResponse {
+export interface ApartmentDTO {
   description: Description;
   price: Price;
   address: Address;
