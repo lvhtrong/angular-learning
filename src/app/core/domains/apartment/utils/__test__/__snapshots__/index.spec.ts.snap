@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`mapFromStoreApartment should return new object with structure 1`] = `
+Object {
+  "address": Object {
+    "city": "city-1",
+    "district": "district-1",
+    "street": "street-1",
+  },
+  "banner": "banner",
+  "createdAt": "createdAt",
+  "createdBy": "createdBy",
+  "description": Object {
+    "long": "long-desc",
+    "short": "short-desc",
+  },
+  "id": "id",
+  "images": Array [
+    "utilities-1",
+  ],
+  "location": Object {
+    "lat": "lat-1",
+    "long": "long-1",
+  },
+  "price": Object {
+    "max": 2,
+    "min": 1,
+  },
+  "rooms": Array [
+    "room1",
+    "room2",
+  ],
+  "roomsCount": 2,
+  "specs": Array [
+    "specs-1",
+  ],
+  "title": "title",
+  "type": "type",
+  "updatedAt": "updatedAt",
+  "utilities": Array [
+    "utilities-1",
+  ],
+}
+`;
+
+exports[`mapToStoreApartment should return new object with structure 1`] = `
+Object {
+  "address": Object {
+    "city": "city-1",
+    "district": "district-1",
+    "street": "street-1",
+  },
+  "banner": "banner",
+  "createdAt": "createdAt",
+  "createdBy": "createdBy",
+  "description": Object {
+    "long": "long-desc",
+    "short": "short-desc",
+  },
+  "id": "id",
+  "images": Array [
+    "utilities-1",
+  ],
+  "location": Object {
+    "lat": "lat-1",
+    "long": "long-1",
+  },
+  "price": Object {
+    "max": 2,
+    "min": 1,
+  },
+  "rooms": Array [
+    "room1",
+    "room2",
+  ],
+  "roomsCount": 2,
+  "specs": Array [
+    "specs-1",
+  ],
+  "title": "title",
+  "type": "type",
+  "updatedAt": "updatedAt",
+  "utilities": Array [
+    "utilities-1",
+  ],
+}
+`;
