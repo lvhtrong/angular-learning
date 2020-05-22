@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '@env';
 import UrlAssembler from 'url-assembler';
-import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import * as fromApartmentActions from '@store/state/domains/apartment/apartment.actions';
 import * as fromApartmentSelectors from '@store/state/domains/apartment/apartment.selectors';
