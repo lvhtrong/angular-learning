@@ -1,20 +1,30 @@
 import { ApiService } from '../api.service';
+import { TestBed } from '@angular/core/testing';
+import { HttpClient } from '@angular/common/http';
 
-const getHttpInstance = () => {
-  return {
-    get: jest.fn().mockReturnValue('get-return'),
-    post: jest.fn().mockReturnValue('post-return'),
-  };
+const setup = () => {
+  return TestBed.inject(ApiService);
 };
 
-const setup = ({ http }) => {
-  return new ApiService(http);
-};
+beforeEach(() => {
+  TestBed.configureTestingModule({
+    providers: [
+      ApiService,
+      {
+        provide: HttpClient,
+        useValue: {
+          get: jest.fn().mockReturnValue('get-return'),
+          post: jest.fn().mockReturnValue('post-return'),
+        },
+      },
+    ],
+  });
+});
 
 describe('get', () => {
   it('should call http get function', () => {
-    const http = getHttpInstance();
-    const apiService = setup({ http });
+    const http = TestBed.inject(HttpClient);
+    const apiService = setup();
     const url = 'url';
     const options = {};
 
@@ -29,8 +39,8 @@ describe('get', () => {
 
 describe('post', () => {
   it('should call http post function', () => {
-    const http = getHttpInstance();
-    const apiService = setup({ http });
+    const http = TestBed.inject(HttpClient);
+    const apiService = setup();
     const url = 'url';
     const body = 'body';
     const options = {};

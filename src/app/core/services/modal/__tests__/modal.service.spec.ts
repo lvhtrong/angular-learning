@@ -1,21 +1,34 @@
+import { TestBed } from '@angular/core/testing';
 import { ModalService } from '../modal.service';
 import { ModalNotifyComponent } from '@shared/components/modal/notify/notify.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 jest.mock('@ng-bootstrap/ng-bootstrap');
 
-const setup = (ngModalService: any) => {
-  return new ModalService(ngModalService);
+const setup = (): ModalService => {
+  return TestBed.inject(ModalService);
 };
+
+beforeEach(() => {
+  TestBed.configureTestingModule({
+    providers: [
+      ModalService,
+      {
+        provide: NgbModal,
+        useValue: {
+          open: jest.fn().mockReturnValue({
+            componentInstance: {},
+          }),
+        },
+      },
+    ],
+  });
+});
 
 describe('openNotifyModal', () => {
   it('should open modal with type', () => {
-    const modalRef = {
-      componentInstance: {},
-    };
-    const ngModalService = {
-      open: jest.fn().mockReturnValue(modalRef),
-    };
-    const modalService = setup(ngModalService);
+    const ngModalService = TestBed.inject(NgbModal);
+    const modalService = setup();
     const title = 'title';
     const content = 'content';
     const buttonText = 'buttonText';
@@ -26,19 +39,19 @@ describe('openNotifyModal', () => {
       buttonText,
     });
 
-    expect(ngModalService.open).toHaveBeenCalledTimes(1);
-    expect(ngModalService.open).toHaveBeenCalledWith(ModalNotifyComponent, {
-      centered: true,
-    });
-
-    expect(modalRef).toMatchInlineSnapshot(`
-      Object {
-        "componentInstance": Object {
-          "buttonText": "buttonText",
-          "content": "content",
-          "title": "title",
-        },
+    expect(ngModalService.open as jest.Mock).toHaveBeenCalledTimes(1);
+    expect(ngModalService.open as jest.Mock).toHaveBeenCalledWith(
+      ModalNotifyComponent,
+      {
+        centered: true,
       }
-    `);
+    );
+    expect(ngModalService.open as jest.Mock).toHaveLastReturnedWith({
+      componentInstance: {
+        title,
+        content,
+        buttonText,
+      },
+    });
   });
 });
