@@ -44,7 +44,7 @@ module.exports = {
   coverageDirectory: "coverage",
 
   // Indicates whether the coverage information should be collected while executing the test
-  collectCoverage: false,
+  collectCoverage: true,
 
   // An object that configures minimum threshold enforcement for coverage results
   coverageThreshold: {
