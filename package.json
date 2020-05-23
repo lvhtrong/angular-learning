@@ -45,6 +45,7 @@
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "jest": "^25.5.4",
+    "jest-marbles": "^2.5.1",
     "jest-preset-angular": "^8.1.3",
     "prettier": "^2.0.5",
     "prettier-tslint": "^0.4.2",
