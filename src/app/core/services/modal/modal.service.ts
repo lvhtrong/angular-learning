@@ -21,13 +21,13 @@ export class ModalService {
     });
 
     if (options?.title) {
-      modalRef.componentInstance.title = options?.title;
+      modalRef.componentInstance.title = options.title;
     }
     if (options?.content) {
-      modalRef.componentInstance.content = options?.content;
+      modalRef.componentInstance.content = options.content;
     }
     if (options?.buttonText) {
-      modalRef.componentInstance.buttonText = options?.buttonText;
+      modalRef.componentInstance.buttonText = options.buttonText;
     }
   }
 }

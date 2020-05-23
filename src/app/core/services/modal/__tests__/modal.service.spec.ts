@@ -4,6 +4,7 @@ import { ModalNotifyComponent } from '@shared/components/modal/notify/notify.com
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 jest.mock('@ng-bootstrap/ng-bootstrap');
+jest.mock('@shared/components/modal/notify/notify.component');
 
 const setup = (): ModalService => {
   return TestBed.inject(ModalService);
@@ -26,7 +27,7 @@ beforeEach(() => {
 });
 
 describe('openNotifyModal', () => {
-  it('should open modal with type', () => {
+  it('should open modal with type and params', () => {
     const ngModalService = TestBed.inject(NgbModal);
     const modalService = setup();
     const title = 'title';
@@ -52,6 +53,24 @@ describe('openNotifyModal', () => {
         content,
         buttonText,
       },
+    });
+  });
+
+  it('should open modal with type and without params', () => {
+    const ngModalService = TestBed.inject(NgbModal);
+    const modalService = setup();
+
+    modalService.openNotifyModal();
+
+    expect(ngModalService.open as jest.Mock).toHaveBeenCalledTimes(1);
+    expect(ngModalService.open as jest.Mock).toHaveBeenCalledWith(
+      ModalNotifyComponent,
+      {
+        centered: true,
+      }
+    );
+    expect(ngModalService.open as jest.Mock).toHaveLastReturnedWith({
+      componentInstance: {},
     });
   });
 });
