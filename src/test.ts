@@ -1,4 +1,5 @@
 import 'jest-preset-angular';
+import 'ng-mocks/dist/jest';
 
 Object.defineProperty(window, 'CSS', { value: null });
 Object.defineProperty(window, 'getComputedStyle', {

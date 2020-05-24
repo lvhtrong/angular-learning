@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render as default 1`] = `
+<div
+  id="root0"
+  ng-version="9.1.7"
+>
+  
+  <div
+    class="modal-header"
+  >
+    <h4
+      class="modal-title"
+    >
+      sample title
+    </h4>
+  </div>
+  <div
+    class="modal-body"
+  >
+    <p>
+      sample content
+    </p>
+  </div>
+  <div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-outline-dark"
+      type="button"
+    >
+       sample button text 
+    </button>
+  </div>
+</div>
+`;
