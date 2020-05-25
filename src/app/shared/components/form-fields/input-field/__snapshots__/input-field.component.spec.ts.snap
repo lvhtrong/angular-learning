@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InputFieldComponent should render with inputs 1`] = `
+<app-f-input-field>
+  <div
+    class="form-group"
+  >
+    <label
+      for="testId"
+    >
+      sample label
+    </label>
+    <input
+      class="form-control is-invalid"
+      id="testId"
+      type="email"
+    />
+    <div
+      class="invalid-feedback"
+    >
+       sample error 
+    </div>
+  </div>
+</app-f-input-field>
+`;
