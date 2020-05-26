@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, Input } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-f-input-field',
@@ -7,17 +7,18 @@ import { Component, OnInit, Output, Input } from '@angular/core';
 })
 export class InputFieldComponent implements OnInit {
   @Input() id = 'input-field';
+  @Input() testId = 'input-field-testid';
   @Input() label = '';
   @Input() value = '';
   @Input() type = 'text';
   @Input() error: string;
-  @Output() textChange: (value: string) => {};
+  @Output() textChange = new EventEmitter<string>();
 
   constructor() {}
 
   ngOnInit(): void {}
 
   onTextChange(value: string) {
-    this.textChange(value);
+    this.textChange.emit(value);
   }
 }

@@ -1,6 +1,7 @@
 import { createHostFactory, Spectator, byLabel } from '@ngneat/spectator/jest';
 
 import { InputFieldComponent } from './input-field.component';
+import { EventEmitter } from '@angular/core';
 
 describe('InputFieldComponent', () => {
   const createComponent = createHostFactory({
@@ -20,7 +21,8 @@ describe('InputFieldComponent', () => {
 
   it('should render with inputs', () => {
     const spectator = setup();
-    spectator.setInput('id', 'testId');
+    spectator.setInput('id', 'sample-id');
+    spectator.setInput('testId', 'sample-testId');
     spectator.setInput('label', 'sample label');
     spectator.setInput('value', 'sample value');
     spectator.setInput('type', 'email');
@@ -32,7 +34,9 @@ describe('InputFieldComponent', () => {
   it('should invoke textChange event when typing', () => {
     const expectedValue = 'expectedValue';
 
-    const textChange = jest.fn();
+    const textChange = new EventEmitter<string>();
+    const emit = jest.spyOn(textChange, 'emit');
+
     const spectator = setup({
       textChange,
     });
@@ -43,8 +47,8 @@ describe('InputFieldComponent', () => {
     const inputElement = spectator.query(byLabel(fieldLabel));
     spectator.typeInElement(expectedValue, inputElement);
 
-    expect(textChange).toHaveBeenCalledTimes(1);
-    expect(textChange).toHaveBeenCalledWith(expectedValue);
+    expect(emit).toHaveBeenCalledTimes(1);
+    expect(emit).toHaveBeenCalledWith(expectedValue);
   });
 
   describe('error', () => {

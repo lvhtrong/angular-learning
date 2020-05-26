@@ -6,13 +6,14 @@ exports[`InputFieldComponent should render with inputs 1`] = `
     class="form-group"
   >
     <label
-      for="testId"
+      for="sample-id"
     >
       sample label
     </label>
     <input
       class="form-control is-invalid"
-      id="testId"
+      data-testid="sample-testId"
+      id="sample-id"
       type="email"
     />
     <div

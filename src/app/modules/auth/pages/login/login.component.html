@@ -3,36 +3,24 @@
     <div class="col-md-6 card">
       <div class="card-body">
         <h1 class="mb-3">Login</h1>
-        <div class="form-group">
-          <label for="login-email-input">Username</label>
-          <input
-            data-testid="login-username-field"
-            type="email"
-            class="form-control"
-            [class.is-invalid]="usernameError"
-            id="login-email-input"
-            [value]="username"
-            (input)="onUsernameChange($event.target.value)"
-          />
-          <div class="invalid-feedback">
-            {{ usernameError }}
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="login-password-input">Password</label>
-          <input
-            data-testid="login-password-field"
-            type="password"
-            class="form-control"
-            [class.is-invalid]="passwordError"
-            id="login-password-input"
-            [value]="password"
-            (input)="onPasswordChange($event.target.value)"
-          />
-          <div class="invalid-feedback">
-            {{ passwordError }}
-          </div>
-        </div>
+        <app-f-input-field
+          id="login-username-input"
+          type="email"
+          label="Username"
+          testId="login-username-field"
+          [error]="usernameError"
+          [value]="username"
+          (textChange)="onUsernameChange($event)"
+        ></app-f-input-field>
+        <app-f-input-field
+          id="login-password-input"
+          type="password"
+          label="Password"
+          testId="login-password-field"
+          [error]="passwordError"
+          [value]="password"
+          (textChange)="onPasswordChange($event)"
+        ></app-f-input-field>
         <button
           data-testid="login-login-button"
           type="submit"
