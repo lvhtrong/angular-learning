@@ -24,6 +24,6 @@ export class ListComponent implements OnInit {
   constructor(private apartmentService: ApartmentService) {}
 
   ngOnInit(): void {
-    this.apartmentService.getApartments();
+    this.apartmentService.getApartments().subscribe();
   }
 }
