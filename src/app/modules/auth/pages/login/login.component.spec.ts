@@ -8,14 +8,25 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SharedModule } from '@shared/shared.module';
 import { LoginComponent } from './login.component';
 
+jest.mock('@core/domains/auth/services/auth.service');
+jest.mock('@core/services/modal/modal.service');
+
 //#region utils
+
+const login = jest
+  .fn()
+  .mockReturnValue(new Observable((observe) => observe.next()));
+const navigate = jest.fn();
+const openNotifyModal = jest.fn();
 
 const createComponent = createComponentFactory({
   component: LoginComponent,
   providers: [
     {
       provide: AuthService,
-      useValue: MockService(AuthService),
+      useValue: {
+        login,
+      },
     },
     {
       provide: ActivatedRoute,
@@ -23,11 +34,15 @@ const createComponent = createComponentFactory({
     },
     {
       provide: Router,
-      useValue: MockService(Router),
+      useValue: {
+        navigate,
+      },
     },
     {
       provide: ModalService,
-      useValue: MockService(ModalService),
+      useValue: {
+        openNotifyModal,
+      },
     },
   ],
   imports: [SharedModule],
@@ -52,6 +67,12 @@ const clickLoginButton = (spectator: Spectator<LoginComponent>) => {
 };
 
 //#endregion
+
+beforeEach(() => {
+  login.mockClear();
+  navigate.mockClear();
+  openNotifyModal.mockClear();
+});
 
 it('should render as expected', () => {
   const spectator = setup();
@@ -107,24 +128,21 @@ describe('type mandatory fields then click Login button', () => {
   };
 
   describe('typed values are valid', () => {
-    const authService = {
-      login: jest
-        .fn()
-        .mockReturnValue(new Observable((observe) => observe.next())),
-    };
-    const router = {
-      navigate: jest.fn(),
-    };
-    const modalService = {
-      openNotifyModal: jest.fn(),
-    };
-
     const username = 'username@mail.com';
     const password = '123456';
 
-    const setupTypeValidValues = (
+    const setupPageOpenedWithRedirectUrl = (
+      redirectUrl?: string,
       options: SpectatorOverrides<LoginComponent> = { providers: [] }
     ) => {
+      const activatedRoute = {
+        queryParamMap: new Observable((observe) => {
+          observe.next({
+            get: jest.fn().mockReturnValue(redirectUrl),
+          });
+        }),
+      };
+
       const spectator = setupValuesThenLogin(
         {
           username,
@@ -135,16 +153,8 @@ describe('type mandatory fields then click Login button', () => {
           providers: [
             ...options?.providers,
             {
-              provide: AuthService,
-              useValue: authService,
-            },
-            {
-              provide: Router,
-              useValue: router,
-            },
-            {
-              provide: ModalService,
-              useValue: modalService,
+              provide: ActivatedRoute,
+              useValue: activatedRoute,
             },
           ],
         }
@@ -153,40 +163,12 @@ describe('type mandatory fields then click Login button', () => {
       return spectator;
     };
 
-    beforeEach(() => {
-      modalService.openNotifyModal.mockClear();
-      authService.login.mockClear();
-      router.navigate.mockClear();
-    });
-
     describe('page is opened without redirect url', () => {
-      const setupPageOpenedWithoutRedirectUrl = (
-        options: SpectatorOverrides<LoginComponent> = { providers: [] }
-      ) => {
-        const activatedRoute = {
-          queryParamMap: new Observable((observe) => {
-            observe.next({
-              get: jest.fn().mockReturnValue(null),
-            });
-          }),
-        };
-
-        const spectator = setupTypeValidValues({
-          ...options,
-          providers: [
-            ...options?.providers,
-            {
-              provide: ActivatedRoute,
-              useValue: activatedRoute,
-            },
-          ],
-        });
-
-        return spectator;
-      };
-
       it('should navigate to root url', (done) => {
-        setupPageOpenedWithoutRedirectUrl();
+        const spectator = setupPageOpenedWithRedirectUrl();
+
+        const authService = spectator.inject(AuthService);
+        const router = spectator.inject(Router);
 
         expect(authService.login).toHaveBeenCalledTimes(1);
         expect(authService.login).toHaveBeenCalledWith({
@@ -203,7 +185,10 @@ describe('type mandatory fields then click Login button', () => {
       });
 
       it('should not open error modal', (done) => {
-        setupPageOpenedWithoutRedirectUrl();
+        const spectator = setupPageOpenedWithRedirectUrl();
+
+        const authService = spectator.inject(AuthService);
+        const modalService = spectator.inject(ModalService);
 
         authService.login.mock.results[0].value.subscribe(() => {
           expect(modalService.openNotifyModal).not.toHaveBeenCalled();
@@ -216,33 +201,11 @@ describe('type mandatory fields then click Login button', () => {
     describe('page is opened with redirect url', () => {
       const redirectUrl = 'redirectUrl';
 
-      const setupPageOpenedWithRedirectUrl = (
-        options: SpectatorOverrides<LoginComponent> = { providers: [] }
-      ) => {
-        const activatedRoute = {
-          queryParamMap: new Observable((observe) => {
-            observe.next({
-              get: jest.fn().mockReturnValue(redirectUrl),
-            });
-          }),
-        };
-
-        const spectator = setupTypeValidValues({
-          ...options,
-          providers: [
-            ...options?.providers,
-            {
-              provide: ActivatedRoute,
-              useValue: activatedRoute,
-            },
-          ],
-        });
-
-        return spectator;
-      };
-
       it('should navigate to redirect url', (done) => {
-        setupPageOpenedWithRedirectUrl();
+        const spectator = setupPageOpenedWithRedirectUrl(redirectUrl);
+
+        const authService = spectator.inject(AuthService);
+        const router = spectator.inject(Router);
 
         expect(authService.login).toHaveBeenCalledTimes(1);
         expect(authService.login).toHaveBeenCalledWith({
@@ -259,7 +222,10 @@ describe('type mandatory fields then click Login button', () => {
       });
 
       it('should not open error modal', (done) => {
-        setupPageOpenedWithRedirectUrl();
+        const spectator = setupPageOpenedWithRedirectUrl(redirectUrl);
+
+        const authService = spectator.inject(AuthService);
+        const modalService = spectator.inject(ModalService);
 
         authService.login.mock.results[0].value.subscribe(() => {
           expect(modalService.openNotifyModal).not.toHaveBeenCalled();
@@ -271,29 +237,6 @@ describe('type mandatory fields then click Login button', () => {
   });
 
   describe('typed values are invalid', () => {
-    const authService = {
-      login: jest.fn().mockReturnValue(
-        throwError({
-          error: {
-            message: 'invalid username or password',
-          },
-        })
-      ),
-    };
-    const router = {
-      navigate: jest.fn(),
-    };
-    const modalService = {
-      openNotifyModal: jest.fn(),
-    };
-    const activatedRoute = {
-      queryParamMap: new Observable((observe) => {
-        observe.next({
-          get: jest.fn().mockReturnValue('redirectUrl'),
-        });
-      }),
-    };
-
     const username = 'username@mail.com';
     const password = '123456';
 
@@ -311,19 +254,25 @@ describe('type mandatory fields then click Login button', () => {
             ...options?.providers,
             {
               provide: AuthService,
-              useValue: authService,
-            },
-            {
-              provide: Router,
-              useValue: router,
-            },
-            {
-              provide: ModalService,
-              useValue: modalService,
+              useValue: {
+                login: jest.fn().mockReturnValue(
+                  throwError({
+                    error: {
+                      message: 'invalid username or password',
+                    },
+                  })
+                ),
+              },
             },
             {
               provide: ActivatedRoute,
-              useValue: activatedRoute,
+              useValue: {
+                queryParamMap: new Observable((observe) => {
+                  observe.next({
+                    get: jest.fn().mockReturnValue('redirectUrl'),
+                  });
+                }),
+              },
             },
           ],
         }
@@ -333,7 +282,10 @@ describe('type mandatory fields then click Login button', () => {
     };
 
     it('should show "Incorrect email or password" modal', (done) => {
-      setupTypeInvalidValues();
+      const spectator = setupTypeInvalidValues();
+
+      const authService = spectator.inject(AuthService);
+      const modalService = spectator.inject(ModalService);
 
       authService.login.mock.results[0].value.subscribe({
         error: () => {
@@ -348,7 +300,9 @@ describe('type mandatory fields then click Login button', () => {
     });
 
     it('should throw error', (done) => {
-      setupTypeInvalidValues();
+      const spectator = setupTypeInvalidValues();
+
+      const authService = spectator.inject(AuthService);
 
       authService.login.mock.results[0].value.subscribe({
         error: (error: any) => {
