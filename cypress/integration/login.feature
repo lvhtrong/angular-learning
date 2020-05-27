@@ -9,7 +9,7 @@ Feature: Login
         When I type 'admin@gmail.com' as 'username'
         And I type '123456' as 'password'
         And I press Login button
-        Then it lands on 'apartment' page
+        Then it lands on 'apartments' page
 
     Scenario: incorrect username or password
 
@@ -30,4 +30,4 @@ Feature: Login
         When I type '123456' as 'password'
         Then 'password' message disappears
         When I press Login button
-        Then it lands on 'apartment' page
+        Then it lands on 'apartments' page
