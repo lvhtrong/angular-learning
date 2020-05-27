@@ -10,6 +10,7 @@ import { Apartment } from '@store/state/domains/apartment/apartment.model';
 jest.mock('@store/state/domains/apartment/apartment.selectors', () => ({
   selectApartmentEntities: jest.fn((a) => a),
 }));
+jest.mock('@core/services/api/api.service');
 
 const getApartmentDTO = (id: string): ApartmentDTO => {
   return {
