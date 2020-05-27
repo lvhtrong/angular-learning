@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@core/domains/auth/services/auth.service';
-import { throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { throwError, Observable, of } from 'rxjs';
+import { map, catchError, switchMap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalService } from '@core/services/modal/modal.service';
 
@@ -53,29 +53,24 @@ export class LoginComponent implements OnInit {
         password: this.password,
       })
       .pipe(
-        map(() => {
-          this.activatedRoute.queryParamMap
-            .pipe(
-              map((queryParamMap) => {
-                console.log(queryParamMap);
-
-                const redirectUrl = queryParamMap.get('redirectUrl');
-                if (redirectUrl) {
-                  this.router.navigate([redirectUrl]);
-                } else {
-                  this.router.navigate(['']);
-                }
-              })
-            )
-            .subscribe();
-        }),
-        catchError((err) => {
+        switchMap(() =>
+          this.activatedRoute.queryParamMap.pipe(
+            map((queryParamMap) => queryParamMap.get('redirectUrl')),
+            map((redirectUrl: string) => {
+              if (redirectUrl) {
+                this.router.navigate([redirectUrl]);
+              } else {
+                this.router.navigate(['']);
+              }
+            })
+          )
+        ),
+        catchError(() => {
           this.modalService.openNotifyModal({
             content: 'Incorrect email or password',
           });
 
-          const { error } = err;
-          return throwError(error.message);
+          return of('Incorrect email or password');
         })
       )
       .subscribe();

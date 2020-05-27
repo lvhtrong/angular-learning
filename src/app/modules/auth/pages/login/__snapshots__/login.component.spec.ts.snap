@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render as expected 1`] = `
+<div
+  id="root0"
+  ng-version="9.1.7"
+>
+  <div
+    class="container"
+  >
+    <div
+      class="row flex justify-content-center align-items-center h-100"
+    >
+      <div
+        class="col-md-6 card"
+      >
+        <div
+          class="card-body"
+        >
+          <h1
+            class="mb-3"
+          >
+            Login
+          </h1>
+          <app-f-input-field
+            id="login-username-input"
+            label="Username"
+            ng-reflect-id="login-username-input"
+            ng-reflect-label="Username"
+            ng-reflect-test-id="login-username-field"
+            ng-reflect-type="email"
+            ng-reflect-value=""
+            testid="login-username-field"
+            type="email"
+          >
+            <div
+              class="form-group"
+            >
+              <label
+                for="login-username-input"
+              >
+                Username
+              </label>
+              <input
+                class="form-control"
+                data-testid="login-username-field"
+                id="login-username-input"
+                type="email"
+              />
+              <div
+                class="invalid-feedback"
+              >
+                  
+              </div>
+            </div>
+          </app-f-input-field>
+          <app-f-input-field
+            id="login-password-input"
+            label="Password"
+            ng-reflect-id="login-password-input"
+            ng-reflect-label="Password"
+            ng-reflect-test-id="login-password-field"
+            ng-reflect-type="password"
+            ng-reflect-value=""
+            testid="login-password-field"
+            type="password"
+          >
+            <div
+              class="form-group"
+            >
+              <label
+                for="login-password-input"
+              >
+                Password
+              </label>
+              <input
+                class="form-control"
+                data-testid="login-password-field"
+                id="login-password-input"
+                type="password"
+              />
+              <div
+                class="invalid-feedback"
+              >
+                  
+              </div>
+            </div>
+          </app-f-input-field>
+          <button
+            class="btn btn-primary"
+            data-testid="login-login-button"
+            type="submit"
+          >
+             Login 
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
