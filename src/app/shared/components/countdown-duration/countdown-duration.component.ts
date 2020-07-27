@@ -15,20 +15,13 @@ import {
 } from 'date-fns';
 import {
   BehaviorSubject,
-  from,
   iif,
   interval,
   Observable,
   of,
   throwError,
 } from 'rxjs';
-import {
-  catchError,
-  delayWhen,
-  map,
-  switchMap,
-  takeUntil,
-} from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-countdown-duration',
@@ -58,15 +51,9 @@ export class CountdownDurationComponent
       switchMap((value) => {
         const diffInSeconds = differenceInSeconds(value.end, value.start);
 
-        const indexes = [];
-        for (let i = 0; i <= diffInSeconds; i++) {
-          indexes.push(i);
-        }
-
         return iif(
           () => diffInSeconds > 0,
-          from(indexes).pipe(
-            delayWhen((index) => interval(index * 1000)),
+          interval(1000).pipe(
             switchMap((countNumber) => {
               const start = addSeconds(value.start, countNumber);
               const end = value.end;
